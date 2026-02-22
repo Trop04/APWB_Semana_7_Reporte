@@ -1,1 +1,2 @@
 C:\Users\tropg\source\repos\APWB_Semana_5\obj\Debug\APWB_Semana_5.esproj.CoreCompileInputs.cache
+C:\Users\tropg\source\repos\APWB_Semana_5_Reporte\obj\Debug\APWB_Semana_5.esproj.CoreCompileInputs.cache

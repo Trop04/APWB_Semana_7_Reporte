@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Producto } from '../../Models/models';
 import { ProductoService } from '../../Services/producto.service';
 import { AuthService } from '../../Services/auth.service';
+import { PdfService } from '../../Services/pdf.service';
 
 @Component({
   selector: 'app-productos-list',
@@ -24,10 +25,12 @@ export class ProductosListComponent implements OnInit, OnDestroy {
   deletingId: number | null = null;
   showDeleteConfirm = false;
   productToDelete: Producto | null = null;
+  generatingPdf = false; 
 
   constructor(
     private productoService: ProductoService,
     private authService: AuthService,
+    private pdfService: PdfService, 
     private router: Router
   ) { }
 
@@ -106,6 +109,36 @@ export class ProductosListComponent implements OnInit, OnDestroy {
           this.productToDelete = null;
         }
       });
+  }
+
+  // Lo de reportes
+
+  generarReportePDF(): void {
+    if (this.productos.length === 0) {
+      this.errorMessage = 'No hay productos para generar el reporte';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
+      return;
+    }
+
+    try {
+      this.generatingPdf = true;
+      this.pdfService.generarReporteProductos(this.productos);
+
+      this.successMessage = 'Reporte PDF generado exitosamente';
+      setTimeout(() => {
+        this.successMessage = '';
+        this.generatingPdf = false;
+      }, 2000);
+    } catch (error) {
+      console.error('Error generando PDF:', error);
+      this.errorMessage = 'Error al generar el reporte PDF';
+      this.generatingPdf = false;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
+    }
   }
 
   logout(): void {

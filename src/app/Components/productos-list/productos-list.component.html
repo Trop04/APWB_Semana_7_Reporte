@@ -12,16 +12,26 @@
 
   <!-- Contenido Principal -->
   <div class="content">
-    <!-- Header con título y botón crear -->
+    <!-- Header con título y botones -->
     <div class="content-header">
       <div>
         <h2>Gestión de Productos</h2>
         <p class="subtitle">Administre el catálogo de productos</p>
       </div>
-      <button class="btn btn-primary" (click)="crear()">
-        <span class="btn-icon">+</span>
-        Nuevo Producto
-      </button>
+      <div class="header-actions">
+        <button class="btn btn-primary btn-pdf"
+                (click)="generarReportePDF()"
+                [disabled]="loading || generatingPdf || productos.length === 0"
+                title="Exportar reporte a PDF">
+          <span *ngIf="!generatingPdf" class="btn-icon">📄</span>
+          <span *ngIf="generatingPdf" class="spinner-small"></span>
+          {{ generatingPdf ? 'Generando...' : 'Exportar PDF' }}
+        </button>
+        <button class="btn btn-primary" (click)="crear()">
+          <span class="btn-icon">+</span>
+          Nuevo Producto
+        </button>
+      </div>
     </div>
 
     <!-- Mensajes de alerta -->
